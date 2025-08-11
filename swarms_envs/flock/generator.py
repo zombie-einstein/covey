@@ -1,9 +1,9 @@
 import abc
 
 import chex
-import jax
-import jax.numpy as jnp
-from jumanji.environments.swarms.common.types import AgentParams, AgentState
+from jumanji.environments.swarms.common.types import AgentParams
+
+from swarms_envs.common.utils import random_agent_state
 
 from .types import State
 
@@ -29,25 +29,9 @@ class Generator(abc.ABC):
 class RandomGenerator(Generator):
     def __call__(self, key: chex.PRNGKey, boid_params: AgentParams) -> State:
 
-        k_pos, k_head, k_speed = jax.random.split(key, 3)
-        positions = jax.random.uniform(
-            k_pos, (self.num_boids, 2), minval=0.0, maxval=self.env_size
+        boid_states = random_agent_state(
+            key, boid_params, self.num_boids, self.env_size
         )
-        headings = jax.random.uniform(
-            k_head, (self.num_boids,), minval=0.0, maxval=2.0 * jnp.pi
-        )
-        speeds = jax.random.uniform(
-            k_speed,
-            (self.num_boids,),
-            minval=boid_params.min_speed,
-            maxval=boid_params.max_speed,
-        )
-        boid_states = AgentState(
-            pos=positions,
-            speed=speeds,
-            heading=headings,
-        )
-
         state = State(
             boids=boid_states,
         )
