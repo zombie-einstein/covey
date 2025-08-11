@@ -33,7 +33,6 @@ class Flock(Environment):
         reward_fn: Optional[RewardFn] = None,
         observation: Optional[ObservationFn] = None,
     ) -> None:
-
         self.boid_params = AgentParams(
             max_rotate=boid_max_rotate,
             max_accelerate=boid_max_accelerate,

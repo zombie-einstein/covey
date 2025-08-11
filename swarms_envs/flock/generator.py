@@ -28,7 +28,6 @@ class Generator(abc.ABC):
 
 class RandomGenerator(Generator):
     def __call__(self, key: chex.PRNGKey, boid_params: AgentParams) -> State:
-
         boid_states = random_agent_state(
             key, boid_params, self.num_boids, self.env_size
         )

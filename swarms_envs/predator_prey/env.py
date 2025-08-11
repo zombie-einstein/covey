@@ -40,7 +40,6 @@ class PredatorPrey(Environment):
         reward_fn: Optional[RewardFn] = None,
         observation: Optional[ObservationFn] = None,
     ) -> None:
-
         self.predator_params = AgentParams(
             max_rotate=predator_max_rotate,
             max_accelerate=predator_max_accelerate,

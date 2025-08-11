@@ -37,7 +37,6 @@ def test_sparse_rewards(
     predator_expected: float,
     prey_expected: list[float],
 ) -> None:
-
     predator_positions = jnp.array(predator_positions)
     prey_positions = jnp.array(prey_positions)
 

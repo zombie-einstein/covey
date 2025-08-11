@@ -207,7 +207,6 @@ def test_predator_view_prey(
     predator_view: tuple[int, int, float],
     prey_view: tuple[int, int, float],
 ) -> None:
-
     predator_state = AgentState(
         pos=jnp.array([predator_position]),
         heading=jnp.array([predator_heading]),
