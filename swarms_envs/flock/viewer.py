@@ -26,14 +26,19 @@ class FlockViewer(MatplotlibViewer[State]):
     def render(
         self, state: State, save_path: Optional[str] = None
     ) -> Optional[NDArray]:
-        """Render a frame of the environment for a given state using matplotlib.
+        """Render a frame of the environment for a given state using matplotlib
 
-        Args:
-            state: State object containing the current dynamics of the environment.
-            save_path: Optional path to save the rendered environment image to.
+        Parameters
+        ----------
+        state
+            State object containing the current dynamics of the environment
+        save_path
+            Optional path to save the rendered environment image to
 
-        Return:
-            RGB array if the render_mode is 'rgb_array'.
+        Returns
+        -------
+        Array or None
+            RGB array if the render_mode is 'rgb_array'
         """
         self._clear_display()
         fig, ax = self._get_fig_ax()
@@ -47,16 +52,22 @@ class FlockViewer(MatplotlibViewer[State]):
     def animate(
         self, states: Sequence[State], interval: int, save_path: Optional[str] = None
     ) -> matplotlib.animation.FuncAnimation:
-        """Create an animation from a sequence of states.
+        """Create an animation from a sequence of states
 
-        Args:
-            states: sequence of `State` corresponding to subsequent timesteps.
-            interval: delay between frames in milliseconds, default to 200.
-            save_path: the path where the animation file should be saved. If it is None,
-                the plot will not be saved.
+        Parameters
+        ----------
+        states
+            Sequence of `State` corresponding to subsequent timesteps
+        interval
+            Delay between frames in milliseconds, default to 200
+        save_path
+            The path where the animation file should be saved. If it is None,
+            the plot will not be saved
 
-        Returns:
-            Animation object that can be saved as a GIF, MP4, or rendered with HTML.
+        Returns
+        -------
+        FuncAnimation
+            Animation object that can be saved as a GIF, MP4, or rendered with HTML
         """
         if not states:
             raise ValueError(f"The states argument has to be non-empty, got {states}.")

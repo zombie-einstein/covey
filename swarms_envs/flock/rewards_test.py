@@ -18,7 +18,7 @@ def test_exponential_rewards(
     positions: list[tuple[float, float]],
     env_size: float,
     expected: list[float],
-):
+) -> None:
     positions = jnp.array(positions)
     n_agents = positions.shape[0]
     headings = jnp.zeros((n_agents,))

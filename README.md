@@ -33,8 +33,11 @@ for _ in range(100):
     state, ts = env.step(state, actions)
     states.append(state)
 
-anim = env.animate(states, interval=100, save_path="test.gif")
+# Save an animation of the environment
+env.animate(states, interval=100, save_path="animation.gif")
 ```
+
+See the [Jumanji docs](https://instadeepai.github.io/jumanji/) for more usage information.
 
 ## Usage
 

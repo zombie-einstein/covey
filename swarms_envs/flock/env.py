@@ -1,3 +1,6 @@
+"""
+Flock multi-agent RL environment
+"""
 from functools import cached_property, partial
 from typing import Optional, Sequence
 
@@ -33,6 +36,40 @@ class Flock(Environment):
         reward_fn: Optional[RewardFn] = None,
         observation: Optional[ObservationFn] = None,
     ) -> None:
+        """
+        Flock multi-agent environment
+
+        Multi-agent RL environment based on Reynolds
+        boids model of flocks.
+
+        Parameters
+        ----------
+        boid_max_rotate
+            Max agent rotation rate per step, as a fraction of π
+        boid_max_accelerate
+            Max agent change of speed per step.
+        boid_min_speed
+            Minimim agent speed
+        boid_max_speed
+            Maximum agent speed
+        time_limit
+            Environment time limit
+        boid_radius
+            Radius of agents
+        viewer
+            Environment viewer used for visualisation, default
+            uses a matplotlib backend
+        generator
+            Initial state generator, the default uniformly
+            generated agent positions and velocities
+        reward_fn
+            Agent reward function, default rewards decay
+            exponentially based on distance between agents
+        observation
+            Agent observation function, default is a standard
+            segmented view showing the distance to neighbouring
+            agents, or -1 is no agent is in range
+        """
         self.boid_params = AgentParams(
             max_rotate=boid_max_rotate,
             max_accelerate=boid_max_accelerate,
@@ -78,6 +115,19 @@ class Flock(Environment):
         )
 
     def reset(self, key: chex.PRNGKey) -> tuple[State, TimeStep[Observation]]:
+        """
+        Reset the environment
+
+        Parameters
+        ----------
+        key
+            JAX random key
+
+        Returns
+        -------
+        State, TimeStep
+            New initial state and initial timestep
+        """
         state = self.generator(key, self.boid_params)
         timestep = restart(
             observation=self._state_to_observation(state), shape=(self.num_agents,)
@@ -87,6 +137,30 @@ class Flock(Environment):
     def step(
         self, state: State, actions: chex.Array
     ) -> tuple[State, TimeStep[Observation]]:
+        """
+        Apply actions and update the state of the environment
+
+        The update performs several steps:
+
+        - Apply the rotation and acceleration actions to each agent
+        - Update the position of all the agents
+        - Calculate rewards between all agents
+        - Generate new observation for each individual agent
+
+        Parameters
+        ----------
+        state
+            Current environment state
+        actions
+            Array of individual agent actions, in the shape
+            `[n-agents, 2]` giving the rotation and change in
+            speed to apply to each agent
+
+        Returns
+        -------
+        State, TimeStep
+            Update state, and new timestep
+        """
         boids = update_state(
             self.generator.env_size, self.boid_params, state.boids, actions
         )
@@ -113,17 +187,26 @@ class Flock(Environment):
 
     @cached_property
     def num_agents(self) -> int:
+        """
+        Number of agents in the flock
+
+        Returns
+        -------
+        int
+            Number of agents
+        """
         return self.generator.num_boids
 
     @cached_property
     def observation_spec(self) -> specs.Spec[Observation]:
         """Returns the observation spec.
 
-        Local searcher agent views representing the distance to the
-        closest neighbouring agents and targets in the environment.
+        Each agent individually generates a segmented view
+        showing the distance to neighbouring agents,
+        or -1 in the case no agent is present in view-range.
 
         Returns:
-            observation_spec: Search-and-rescue observation spec
+            observation_spec: Flock observation spec
         """
         boid_views = specs.BoundedArray(
             shape=(
@@ -160,11 +243,13 @@ class Flock(Environment):
         """Returns the action spec.
 
         2d array of individual agent actions. Each agents action is
-        an array representing [rotation, acceleration] in the range
-        [-1, 1].
+        an array representing `[rotation, acceleration]` in the range
+        `[-1, 1]`.
 
-        Returns:
-            action_spec: Action array spec
+        Returns
+        -------
+        BoundedArray
+            Action array spec
         """
         return specs.BoundedArray(
             shape=(self.generator.num_boids, 2),
@@ -179,8 +264,10 @@ class Flock(Environment):
 
         Array of individual rewards for each agent.
 
-        Returns:
-            reward_spec: Reward array spec.
+        Returns
+        -------
+        BoundedArray
+            Reward array spec.
         """
         return specs.BoundedArray(
             shape=(self.generator.num_boids,),
@@ -192,8 +279,10 @@ class Flock(Environment):
     def render(self, state: State) -> None:
         """Render a frame of the environment for a given state using matplotlib.
 
-        Args:
-            state: State object.
+        Parameters
+        ----------
+        state
+            State object
         """
         self._viewer.render(state)
 
@@ -205,14 +294,20 @@ class Flock(Environment):
     ) -> FuncAnimation:
         """Create an animation from a sequence of environment states.
 
-        Args:
-            states: sequence of environment states corresponding to consecutive
-                timesteps.
-            interval: delay between frames in milliseconds.
-            save_path: the path where the animation file should be saved. If it
-                is None, the plot will not be saved.
+        Parameters
+        ----------
+        states
+            Sequence of environment states corresponding to consecutive
+            timesteps.
+        interval
+            Delay between frames in milliseconds.
+        save_path
+            The path where the animation file should be saved. If it
+            is None, the plot will not be saved.
 
-        Returns:
+        Returns
+        -------
+        FuncAnimation
             Animation that can be saved as a GIF, MP4, or rendered with HTML.
         """
         return self._viewer.animate(states, interval=interval, save_path=save_path)

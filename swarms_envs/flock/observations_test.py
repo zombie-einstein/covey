@@ -51,7 +51,7 @@ def test_vision(
     headings: list[float],
     env_size: float,
     view: list[tuple[int, int, float]],
-):
+) -> None:
     n_agents = len(headings)
     positions = jnp.array(positions)
     headings = jnp.array(headings)
