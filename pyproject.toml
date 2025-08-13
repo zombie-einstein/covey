@@ -27,5 +27,5 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.taskipy.tasks]
-test = { cmd = "pytest swarms_envs", help="Run tests"}
+test = { cmd = "pytest swarm_envs", help="Run tests"}
 lint = { cmd = "pre-commit run --all-files", help="Code format checks"}

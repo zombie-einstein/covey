@@ -3,7 +3,7 @@ import abc
 import chex
 from jumanji.environments.swarms.common.types import AgentParams
 
-from swarms_envs.common.utils import random_agent_state
+from swarm_envs.common.utils import random_agent_state
 
 from .types import State
 
