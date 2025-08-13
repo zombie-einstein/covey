@@ -1,23 +1,18 @@
-# Flock and Swarm Multi Agent RL Environments
+# Covey
 
-**Multi-agent RL environment, implemented with [JAX](https://github.com/google/jax) using [Esquilax](https://zombie-einstein.github.io/esquilax/)**
+**Swarm and Flock Multi-agent RL environments, implemented with [JAX](https://github.com/google/jax) using [Esquilax](https://zombie-einstein.github.io/esquilax/)**
 
 <p float="left">
   <img src=".github/images/rl_boids001.gif?raw=true" width="300" />
   <img src=".github/images/rl_boids002.gif?raw=true" width="300" />
 </p>
 
-The environment is based on popular [boids model](https://en.wikipedia.org/wiki/Boids)
-where agents recreate flocking behaviours based on simple interaction rules.
-The environment implements boids as a multi-agent reinforcement problem where each
-boid takes individual actions and have individual localised views of the environment.
-
-This environment has been built using [Esquilax](https://zombie-einstein.github.io/esquilax/) a JAX multi-agent simulation and RL
-library, and the [Jumanji](https://github.com/instadeepai/jumanji) RL environment
-API.
+Multi-agent RL environments with a focus on larger scale flocks and swarms on continuos
+spaces. Implemented using [Esquilax](https://zombie-einstein.github.io/esquilax/) a JAX multi-agent simulation and RL
+library, and the [Jumanji](https://github.com/instadeepai/jumanji) RL environment API.
 
 ```python
-from swarms_envs.flock.env import Flock
+from covey.flock.env import Flock
 import jax
 
 
