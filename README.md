@@ -1,7 +1,6 @@
-# Flock Multi Agent RL Environment
+# Flock and Swarm Multi Agent RL Environments
 
-**Multi-agent RL environment based on Boids, implemented with
-[JAX](https://github.com/google/jax) using [Esquilax](https://zombie-einstein.github.io/esquilax/)**
+**Multi-agent RL environment, implemented with [JAX](https://github.com/google/jax) using [Esquilax](https://zombie-einstein.github.io/esquilax/)**
 
 <p float="left">
   <img src=".github/images/rl_boids001.gif?raw=true" width="300" />
@@ -13,41 +12,34 @@ where agents recreate flocking behaviours based on simple interaction rules.
 The environment implements boids as a multi-agent reinforcement problem where each
 boid takes individual actions and have individual localised views of the environment.
 
-This environment has been built using [Esquilax](https://zombie-einstein.github.io/esquilax/)
-a JAX multi-agent simulation and RL library.
+This environment has been built using [Esquilax](https://zombie-einstein.github.io/esquilax/) a JAX multi-agent simulation and RL
+library, and the [Jumanji](https://github.com/instadeepai/jumanji) RL environment
+API.
 
 ```python
-import flock_env
+from swarms_envs.flock.env import Flock
 import jax
 
+
+env = Flock()
+
 key = jax.random.PRNGKey(101)
-key_reset, key_act, key_step = jax.random.split(key, 3)
+state, ts = env.reset(key)
+states = [state]
 
-# Initialise a flock environment with 10 agents
-env = flock_env.SimpleFlockEnv(
-    reward_func=flock_env.rewards.exponential_rewards,
-    n_agents=10,
-    i_range=0.1,
-)
-env_params = env.default_params()
+for _ in range(100):
+    key, k = jax.random.split(key)
+    actions = jax.random.uniform(k, (env.generator.num_boids, 2), minval=0.5, maxval=1.0)
+    state, ts = env.step(state, actions)
+    states.append(state)
 
-# Reset the environment and get state and observation
-obs, state = env.reset(key_reset, env_params)
-# Sample random action for agents
-actions = jax.random.uniform(key_act, (10, 2))
-# Step the environment
-new_obs, new_state, rewards, dones = env.step(
-    key_step, env_params, state, actions
-)
+# Save an animation of the environment
+env.animate(states, interval=100, save_path="animation.gif")
 ```
 
-## Usage
+See the [Jumanji docs](https://instadeepai.github.io/jumanji/) for more usage information.
 
-See [`examples/ppo_example.ipynb`](/examples/ppo_example.ipynb) for an example
-of training a Proximal-Policy-Optimisation agent with this environment
-using a [JAX implementation of PPO](https://github.com/zombie-einstein/JAX-PPO)
-and Esquilax's built-in
-[RL training functionality](https://zombie-einstein.github.io/esquilax/autoapi/esquilax/ml/rl/index.html).
+## Usage
 
 The package and requirements can be installed using [poetry](https://python-poetry.org/docs/)
 by running
@@ -55,15 +47,6 @@ by running
 ```shell
 poetry install
 ```
-
-## TODO
-
-- Objects/obstacles in the environment
-
-## Previous Version
-
-The previous version of this project built around Numba can be found in
-[`/deprecated`](/deprecated)
 
 ## Developers
 
