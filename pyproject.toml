@@ -1,12 +1,12 @@
 [tool.poetry]
-name = "flock-env"
+name = "covey"
 version = "0.1.0"
 description = "Multi-agent Flock Environments Implemented in JAX"
 authors = ["zombie-einstein <zombie-einstein@proton.me>"]
 readme = "README.md"
-packages = [{include = "swarm_envs"}]
-homepage = "https://github.com/zombie-einstein/flock_env"
-repository = "https://github.com/zombie-einstein/flock_env"
+packages = [{include = "covey"}]
+homepage = "https://github.com/zombie-einstein/covey"
+repository = "https://github.com/zombie-einstein/covey"
 keywords = ["jax", "rl", "multi-agent rl"]
 
 [tool.poetry.dependencies]
@@ -27,5 +27,5 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.taskipy.tasks]
-test = { cmd = "pytest swarm_envs", help="Run tests"}
+test = { cmd = "pytest covey", help="Run tests"}
 lint = { cmd = "pre-commit run --all-files", help="Code format checks"}
