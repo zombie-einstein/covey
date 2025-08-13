@@ -18,7 +18,7 @@ class FlockViewer(MatplotlibViewer[State]):
         env_size: Tuple[float, float] = (1.0, 1.0),
         boid_color: str = "#282B28",  # black
         render_mode: str = "human",
-    ):
+    ) -> None:
         self.env_size = env_size
         self.boid_color = boid_color
         super().__init__(name, render_mode)

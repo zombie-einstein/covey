@@ -1,3 +1,4 @@
+"""Predator-prey multi-agent environment"""
 from functools import cached_property
 from typing import Optional, Sequence
 
@@ -20,6 +21,15 @@ from .viewer import PredatorPreyViewer
 
 
 class PredatorPrey(Environment):
+    """
+    Predator-prey multi-agent RL environment
+
+    Environment containing two distinct agent types, predators and prey.
+    The predator agents are rewarded for coming within capture range of
+    the prey agents. Conversely, the prey agents are penalised if within
+    capture range of a prey agent.
+    """
+
     def __init__(
         self,
         prey_max_rotate: float = 0.025,
@@ -31,15 +41,52 @@ class PredatorPrey(Environment):
         predator_min_speed: float = 0.015,
         predator_max_speed: float = 0.025,
         time_limit: int = 400,
-        predator_vision_range: float = 0.2,
-        prey_vision_range: float = 0.1,
-        agent_radius: float = 0.01,
-        capture_range: float = 0.05,
         viewer: Optional[Viewer[State]] = None,
         generator: Optional[Generator] = None,
         reward_fn: Optional[RewardFn] = None,
         observation: Optional[ObservationFn] = None,
     ) -> None:
+        """
+        Initialise a predator-prey environment
+
+        Parameters
+        ----------
+        prey_max_rotate
+            Max prey agent change in heading in a single
+            step, as a fraction of π
+        prey_max_accelerate
+            Max prey agent change in speed in a single
+            step, as a fraction of π
+        prey_min_speed
+            Prey agent minimum speed
+        prey_max_speed
+            Prey agent maximum speed
+        predator_max_rotate
+            Max predator agent change in heading in a single
+            step, as a fraction of π
+        predator_max_accelerate
+            Max predator agent change in speed in a single
+            step, as a fraction of π
+        predator_min_speed
+            Predator agent minimum speed
+        predator_max_speed
+            Predator agent maximum speed
+        time_limit
+            Environment time limit
+        viewer
+            Plot/image generator, default uses the Matplotlib backend
+        generator
+            Initial state generator, default generates a uniform random
+            distribution of predator and prey agents
+        reward_fn
+            Reward function, default provides a reward of 0.1 to
+            predators if within range of a prey agent, and a -0.1
+            penalty to prey for each predator within capture range
+        observation
+            Agent observation function, default generates a segmented
+            view with 2 channels, containing the distance to agents
+            of the same-type, and opposite type in different channels
+        """
         self.predator_params = AgentParams(
             max_rotate=predator_max_rotate,
             max_accelerate=predator_max_accelerate,
@@ -53,10 +100,6 @@ class PredatorPrey(Environment):
             max_speed=prey_max_speed,
         )
         self.time_limit = time_limit
-        self.predator_vision_range = predator_vision_range
-        self.prey_vision_range = prey_vision_range
-        self.agent_radius = agent_radius
-        self.capture_range = capture_range
         self.generator = generator or RandomGenerator(num_predators=2, num_prey=20)
         self._viewer = viewer or PredatorPreyViewer()
         self._reward_fn = reward_fn or SparseRewards(
@@ -90,8 +133,6 @@ class PredatorPrey(Environment):
                 f" - prey max acceleration: {self.prey_params.max_accelerate}",
                 f" - prey min speed: {self.prey_params.min_speed}",
                 f" - prey max speed: {self.prey_params.max_speed}",
-                f" - predator vision range: {self.predator_vision_range}",
-                f" - prey visions range: {self.prey_vision_range}",
                 f" - predator vision range: {predator_vision_range}",
                 f" - prey vision range: {self._observation_fn.prey_vision_range}",
                 f" - predator view angle: {self._observation_fn.predator_view_angle}",
@@ -107,6 +148,19 @@ class PredatorPrey(Environment):
         )
 
     def reset(self, key: chex.PRNGKey) -> tuple[State, TimeStep[Observation]]:
+        """
+        Reset the environment
+
+        Parameters
+        ----------
+        key
+            JAX random key
+
+        Returns
+        -------
+        State, TimeStep
+            New initial state and initial timestep
+        """
         state = self.generator(key, self.predator_params, self.prey_params)
         timestep = TimeStep(
             step_type=StepType.FIRST,
@@ -126,6 +180,28 @@ class PredatorPrey(Environment):
     def step(
         self, state: State, actions: Actions
     ) -> tuple[State, TimeStep[Observation]]:
+        """
+        Apply actions and update the state of the environment
+
+        The environment is updated in several steps:
+
+        - Apply predator and prey actions
+        - Update predator and prey positions
+        - Calculate new individual rewards for each agent type
+        - Generate individual views for each agent and type
+
+        Parameters
+        ----------
+        state
+            Current environment state
+        actions
+            Actions struct containing predator and prey action arrays
+
+        Returns
+        -------
+        State, TimeStep
+            Updated environment state and new timestep
+        """
         predators = update_state(
             self.generator.env_size,
             self.predator_params,
@@ -177,13 +253,15 @@ class PredatorPrey(Environment):
 
     @cached_property
     def observation_spec(self) -> specs.Spec[Observation]:
-        """Returns the observation spec.
+        """Returns the observation spec
 
-        Local searcher agent views representing the distance to the
-        closest neighbouring agents and targets in the environment.
+        Local predator and prey agent views representing the distance to the
+        closest neighbouring agents of each type
 
-        Returns:
-            observation_spec: Search-and-rescue observation spec
+        Returns
+        -------
+        Spec
+            Predator-prey environment observation spec
         """
         predator_views = specs.BoundedArray(
             shape=(
@@ -237,14 +315,14 @@ class PredatorPrey(Environment):
 
     @cached_property
     def action_spec(self) -> specs.Spec[Actions]:
-        """Returns the action spec.
+        """Returns the action spec
 
-        2d array of individual agent actions. Each agents action is
-        an array representing [rotation, acceleration] in the range
-        [-1, 1].
+        Actions struct containing predator and prey action arrays
 
-        Returns:
-            action_spec: Action array spec
+        Returns
+        -------
+        Spec
+            Action array spec
         """
         return specs.Spec(
             Actions,
@@ -264,12 +342,15 @@ class PredatorPrey(Environment):
 
     @cached_property
     def reward_spec(self) -> specs.Spec[Rewards]:
-        """Returns the reward spec.
+        """Returns the reward spec
 
-        Array of individual rewards for each agent.
+        Rewards struct, containing individual rewards for
+        predator and prey agents
 
-        Returns:
-            reward_spec: Reward array spec.
+        Returns
+        -------
+        Spec
+            Reward spec
         """
         return specs.Spec(
             Rewards,
@@ -286,8 +367,10 @@ class PredatorPrey(Environment):
     def render(self, state: State) -> None:
         """Render a frame of the environment for a given state using matplotlib.
 
-        Args:
-            state: State object.
+        Parameters
+        ----------
+        state
+            State object
         """
         self._viewer.render(state)
 
@@ -299,15 +382,21 @@ class PredatorPrey(Environment):
     ) -> FuncAnimation:
         """Create an animation from a sequence of environment states.
 
-        Args:
-            states: sequence of environment states corresponding to consecutive
-                timesteps.
-            interval: delay between frames in milliseconds.
-            save_path: the path where the animation file should be saved. If it
-                is None, the plot will not be saved.
+        Parameters
+        ----------
+        states
+            Sequence of environment states corresponding to consecutive
+            timesteps.
+        interval
+            Delay between frames in milliseconds.
+        save_path
+            The path where the animation file should be saved. If it
+            is None, the plot will not be saved.
 
-        Returns:
-            Animation that can be saved as a GIF, MP4, or rendered with HTML.
+        Returns
+        -------
+        FuncAnimation
+            Animation that can be saved as a GIF, MP4, or rendered with HTML
         """
         return self._viewer.animate(states, interval=interval, save_path=save_path)
 

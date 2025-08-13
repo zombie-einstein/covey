@@ -1,3 +1,4 @@
+"""Predator-prey environment visualisation"""
 from typing import Optional, Sequence, Tuple
 
 import jax.numpy as jnp
@@ -12,6 +13,10 @@ from .types import State
 
 
 class PredatorPreyViewer(MatplotlibViewer[State]):
+    """
+    Predator-prey environment visualiser
+    """
+
     def __init__(
         self,
         name: str = "predator_prey",
@@ -19,7 +24,7 @@ class PredatorPreyViewer(MatplotlibViewer[State]):
         prey_color: str = "#5ec962",
         predator_color: str = "#440154",
         render_mode: str = "human",
-    ):
+    ) -> None:
         self.env_size = env_size
         self.prey_color = prey_color
         self.predator_color = predator_color
