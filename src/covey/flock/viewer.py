@@ -1,3 +1,4 @@
+"""Flock environment visualisation utilities"""
 from typing import Optional, Sequence, Tuple
 
 import jax.numpy as jnp
@@ -19,6 +20,20 @@ class FlockViewer(MatplotlibViewer[State]):
         boid_color: str = "#282B28",  # black
         render_mode: str = "human",
     ) -> None:
+        """
+        Flock environment visualiser using Matplotlib
+
+        Parameters
+        ----------
+        name
+            Plot name, default ``flock``
+        env_size
+            Tuple containing the dimensions of the environment
+        boid_color
+            Color applied to boid agents, default is black
+        render_mode
+            Default ``human``
+        """
         self.env_size = env_size
         self.boid_color = boid_color
         super().__init__(name, render_mode)
@@ -38,7 +53,7 @@ class FlockViewer(MatplotlibViewer[State]):
         Returns
         -------
         Array or None
-            RGB array if the render_mode is 'rgb_array'
+            RGB array if the render_mode is ``rgb_array``
         """
         self._clear_display()
         fig, ax = self._get_fig_ax()
@@ -57,7 +72,7 @@ class FlockViewer(MatplotlibViewer[State]):
         Parameters
         ----------
         states
-            Sequence of `State` corresponding to subsequent timesteps
+            Sequence of ``State`` corresponding to subsequent timesteps
         interval
             Delay between frames in milliseconds, default to 200
         save_path

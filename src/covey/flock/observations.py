@@ -1,4 +1,4 @@
-"""Agent observation function"""
+"""Flock agent observation function"""
 from typing import Tuple
 
 import chex

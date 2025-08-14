@@ -1,4 +1,4 @@
-"""Predator-prey observation function"""
+"""Predator-prey environment observation function"""
 from typing import Tuple
 
 import chex
@@ -17,17 +17,6 @@ def _view_reduction(view_shape: Tuple[int, ...]) -> esquilax.reductions.Reductio
 
 
 class ObservationFn:
-    """
-    Default predator-prey observation function
-
-    Produces an individual local view of other agents in the
-    environment for each agent. Each agents view is a
-    `[2, num_vision]` array, where the values represent the
-    distance along a ray to the nearest agent, with -1
-    representing the case no agent is in range. The two
-    rows represent the view of different types of agents.
-    """
-
     def __init__(
         self,
         num_vision: int,
@@ -39,7 +28,14 @@ class ObservationFn:
         env_size: float,
     ) -> None:
         """
-        Initialise the observation function
+        Default predator-prey observation function
+
+        Produces an individual local view of other agents in the
+        environment for each agent. Each agents view is a
+        ``[2, num_vision]`` array, where the values represent the
+        distance along a ray to the nearest agent, with -1
+        representing the case no agent is in range. The two
+        rows represent the view of different types of agents.
 
         Parameters
         ----------

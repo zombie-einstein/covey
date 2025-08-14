@@ -1,3 +1,4 @@
+"""Flock environment initial state generator"""
 import abc
 
 import chex

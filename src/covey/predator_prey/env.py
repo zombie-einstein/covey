@@ -21,15 +21,6 @@ from .viewer import PredatorPreyViewer
 
 
 class PredatorPrey(Environment):
-    """
-    Predator-prey multi-agent RL environment
-
-    Environment containing two distinct agent types, predators and prey.
-    The predator agents are rewarded for coming within capture range of
-    the prey agents. Conversely, the prey agents are penalised if within
-    capture range of a prey agent.
-    """
-
     def __init__(
         self,
         prey_max_rotate: float = 0.025,
@@ -47,7 +38,12 @@ class PredatorPrey(Environment):
         observation: Optional[ObservationFn] = None,
     ) -> None:
         """
-        Initialise a predator-prey environment
+        Predator-prey multi-agent RL environment
+
+        Environment containing two distinct agent types, predators and prey.
+        The predator agents are rewarded for coming within capture range of
+        the prey agents. Conversely, the prey agents are penalised if within
+        capture range of a prey agent.
 
         Parameters
         ----------

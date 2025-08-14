@@ -39,6 +39,9 @@ jumanji = "^1.1.1"
 pre-commit = "^2.21.0"
 taskipy = "^1.10.3"
 pytest = "^7.2.1"
+sphinx = "8.1"
+piccolo-theme = "^0.24.0"
+sphinx-autoapi = "^3.6.0"
 
 [build-system]
 requires = ["poetry-core"]

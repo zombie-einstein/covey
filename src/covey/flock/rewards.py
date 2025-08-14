@@ -1,3 +1,4 @@
+"""Flock agent reward functions"""
 import abc
 from typing import Callable, Union
 
