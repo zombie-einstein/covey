@@ -1,14 +1,7 @@
-import chex
-import jax
 import pytest
 
-from .env import Flock
-from .observations import ObservationFn
-
-
-@pytest.fixture
-def key() -> chex.PRNGKey:
-    return jax.random.PRNGKey(101)
+from covey.flock.env import Flock
+from covey.flock.observations import ObservationFn
 
 
 @pytest.fixture

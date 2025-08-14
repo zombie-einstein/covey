@@ -5,8 +5,8 @@ from jumanji.testing.env_not_smoke import (
     check_env_specs_does_not_smoke,
 )
 
-from .env import Flock
-from .types import Observation
+from covey.flock.env import Flock
+from covey.flock.types import Observation
 
 
 def test_env_does_not_smoke(env: Flock) -> None:

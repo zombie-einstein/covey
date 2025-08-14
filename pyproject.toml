@@ -1,19 +1,37 @@
 [tool.poetry]
 name = "covey"
 version = "0.1.0"
-description = "Multi-agent Flock Environments Implemented in JAX"
+description = "Multi-agent RL flock and swarm environments implemented in JAX"
 authors = ["zombie-einstein <zombie-einstein@proton.me>"]
 readme = "README.md"
-packages = [{include = "covey"}]
-homepage = "https://github.com/zombie-einstein/covey"
+packages = [{include = "covey", from = "src"}]
 repository = "https://github.com/zombie-einstein/covey"
-keywords = ["jax", "rl", "multi-agent rl"]
+homepage = "https://zombie-einstein.github.io/covey"
+documentation = "https://zombie-einstein.github.io/covey"
+license = "MIT"
+keywords = [
+  "simulation",
+  "reinforcement-learning",
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy",
+  "License :: OSI Approved :: MIT License",
+  "Environment :: GPU",
+  "Intended Audience :: Science/Research",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+  "Topic :: Scientific/Engineering :: Artificial Life",
+]
 
 [tool.poetry.dependencies]
 python = ">=3.10,<3.12"
 jax = "^0.4.4"
 chex = "^0.1.6"
-matplotlib = "^3.7.1"
 esquilax = ">=2.0.0"
 jumanji = "^1.1.1"
 
@@ -27,5 +45,7 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.taskipy.tasks]
-test = { cmd = "pytest covey", help="Run tests"}
+test = { cmd = "pytest tests", help="Run tests"}
 lint = { cmd = "pre-commit run --all-files", help="Code format checks"}
+docs = { cmd = "sphinx-build -W -b html docs/source docs/build", help="Build docs"}
+pre-commit = "task test && task lint && task docs"
