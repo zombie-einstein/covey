@@ -24,7 +24,7 @@ autoapi_options = [
 
 autoapi_member_order = "alphabetical"
 autoapi_own_page_level = "function"
-autoapi_python_class_content = "both"
+autoapi_python_class_content = "init"
 autoapi_template_dir = "_autoapi_templates"
 autoapi_python_use_implicit_namespaces = False
 autoapi_keep_files = False
