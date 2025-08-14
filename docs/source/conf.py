@@ -45,6 +45,7 @@ napoleon_use_admonition_for_notes = True
 napoleon_use_admonition_for_references = False
 napoleon_use_rtype = True
 napoleon_preprocess_types = True
+napoleon_custom_sections = ["Actions", "Observations", "Rewards"]
 
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3", None),

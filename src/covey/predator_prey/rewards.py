@@ -12,13 +12,17 @@ class RewardFn(abc.ABC):
 
     @abc.abstractmethod
     def __call__(self, state: State) -> Rewards:
-        """The reward function.
+        """Generate predator and prey rewards from state
 
-        Args:
-            state: Env state
+        Parameters
+        ----------
+        state
+            Env state
 
-        Returns:
-            Individual reward for each agent.
+        Returns
+        -------
+        Rewards
+            Individual reward for each predator and prey agent
         """
 
 

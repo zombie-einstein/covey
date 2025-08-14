@@ -1,5 +1,8 @@
 """
 Flock multi-agent RL environment
+
+Multi-agent environment inspired by Reynolds boid model. Agents
+aim to stay close to other agents without colliding.
 """
 from functools import cached_property, partial
 from typing import Optional, Sequence
@@ -39,13 +42,35 @@ class Flock(Environment):
         """
         Flock multi-agent environment
 
-        Multi-agent RL environment based on Reynolds
-        boids model of flocks.
+        Multi-agent environment inspired by Reynolds boid model. Agents
+        aim to stay close to other agents without colliding.
+
+        Actions
+        -------
+        Each individual agent can rotate their heading, and change their
+        speed. Actions are in the range ``[-1, 1]`` which are then
+        scales by the maximum rotation and acceleration parameters. The
+        total actions for the flock is an array with shape ``[n_agents, 2]``.
+        The action values represent ``[rotation, acceleration]`` respectively.
+
+        Observations
+        ------------
+        Agents individually observe their local environment within a
+        given range. The view-cone of each agent is segmented into individual
+        values, that represent the distance to a neighbouring agents along a
+        ray. The default value is ``-1`` in the case no neighbour lies
+        along that ray.
+
+        Rewards
+        -------
+        Agents are rewarded for each agent within neighbouring range, but
+        penalised for each agent they collide with. By default, rewards
+        decrease exponentially with distance between neighbouring agents.
 
         Parameters
         ----------
         boid_max_rotate
-            Max agent rotation rate per step, as a fraction of π
+            Max agent change in heading per step, as a fraction of π
         boid_max_accelerate
             Max agent change of speed per step.
         boid_min_speed
@@ -55,7 +80,7 @@ class Flock(Environment):
         time_limit
             Environment time limit
         boid_radius
-            Radius of agents
+            Radius of agents for collision detection
         viewer
             Environment viewer used for visualisation, default
             uses a matplotlib backend
@@ -118,6 +143,8 @@ class Flock(Environment):
         """
         Reset the environment
 
+        Generates a new initial environment state and initial timestep
+
         Parameters
         ----------
         key
@@ -153,8 +180,10 @@ class Flock(Environment):
             Current environment state
         actions
             Array of individual agent actions, in the shape
-            `[n-agents, 2]` giving the rotation and change in
-            speed to apply to each agent
+            ``[n-agents, 2]`` giving the change in heading and
+            change in speed to apply to each agent in the range
+            ``[-1, 1]``. The values represent ``[rotation, acceleration]``
+            respectively.
 
         Returns
         -------
@@ -199,14 +228,16 @@ class Flock(Environment):
 
     @cached_property
     def observation_spec(self) -> specs.Spec[Observation]:
-        """Returns the observation spec.
+        """Returns the observation spec
 
         Each agent individually generates a segmented view
         showing the distance to neighbouring agents,
-        or -1 in the case no agent is present in view-range.
+        or ``-1`` in the case no agent is present in view-range.
 
-        Returns:
-            observation_spec: Flock observation spec
+        Returns
+        -------
+        Spec
+            Flock environment observation spec
         """
         boid_views = specs.BoundedArray(
             shape=(
@@ -240,11 +271,11 @@ class Flock(Environment):
 
     @cached_property
     def action_spec(self) -> specs.BoundedArray:
-        """Returns the action spec.
+        """Returns the action spec
 
         2d array of individual agent actions. Each agents action is
-        an array representing `[rotation, acceleration]` in the range
-        `[-1, 1]`.
+        an array representing ``[rotation, acceleration]`` in the range
+        ``[-1, 1]``.
 
         Returns
         -------
@@ -260,14 +291,14 @@ class Flock(Environment):
 
     @cached_property
     def reward_spec(self) -> specs.BoundedArray:
-        """Returns the reward spec.
+        """Returns the reward spec
 
-        Array of individual rewards for each agent.
+        Array of individual rewards for each agent
 
         Returns
         -------
         BoundedArray
-            Reward array spec.
+            Reward array spec
         """
         return specs.BoundedArray(
             shape=(self.generator.num_boids,),
@@ -292,23 +323,23 @@ class Flock(Environment):
         interval: int = 100,
         save_path: Optional[str] = None,
     ) -> FuncAnimation:
-        """Create an animation from a sequence of environment states.
+        """Create an animation from a sequence of environment states
 
         Parameters
         ----------
         states
             Sequence of environment states corresponding to consecutive
-            timesteps.
+            timesteps
         interval
-            Delay between frames in milliseconds.
+            Delay between frames in milliseconds
         save_path
-            The path where the animation file should be saved. If it
-            is None, the plot will not be saved.
+            The path where the animation file should be saved. If
+            ``None``, the plot will not be saved
 
         Returns
         -------
         FuncAnimation
-            Animation that can be saved as a GIF, MP4, or rendered with HTML.
+            Animation that can be saved as a GIF, MP4, or rendered with HTML
         """
         return self._viewer.animate(states, interval=interval, save_path=save_path)
 
