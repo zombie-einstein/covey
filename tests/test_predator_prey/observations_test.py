@@ -2,9 +2,9 @@ import jax.numpy as jnp
 import pytest
 from jumanji.environments.swarms.common.types import AgentState
 
-from .env import PredatorPrey
-from .observations import ObservationFn
-from .types import State
+from covey.predator_prey.env import PredatorPrey
+from covey.predator_prey.observations import ObservationFn
+from covey.predator_prey.types import State
 
 
 @pytest.mark.parametrize(

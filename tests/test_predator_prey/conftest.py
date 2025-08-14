@@ -1,14 +1,7 @@
-import chex
-import jax
 import pytest
 
-from .env import PredatorPrey
-from .observations import ObservationFn
-
-
-@pytest.fixture
-def key() -> chex.PRNGKey:
-    return jax.random.PRNGKey(101)
+from covey.predator_prey.env import PredatorPrey
+from covey.predator_prey.observations import ObservationFn
 
 
 @pytest.fixture
