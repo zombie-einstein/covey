@@ -13,10 +13,6 @@ from .types import State
 
 
 class PredatorPreyViewer(MatplotlibViewer[State]):
-    """
-    Predator-prey environment visualiser
-    """
-
     def __init__(
         self,
         name: str = "predator_prey",
@@ -25,6 +21,22 @@ class PredatorPreyViewer(MatplotlibViewer[State]):
         predator_color: str = "#440154",
         render_mode: str = "human",
     ) -> None:
+        """
+        Predator-prey environment visualiser
+
+        Parameters
+        ----------
+        name
+            Plot name, default ``predator_prey``
+        env_size
+            Tuple containing the dimensions of the environment
+        prey_color
+            Color applied to prey agents
+        predator_color
+            Color applied to predator agents
+        render_mode
+            Default ``human``
+        """
         self.env_size = env_size
         self.prey_color = prey_color
         self.predator_color = predator_color
@@ -35,11 +47,16 @@ class PredatorPreyViewer(MatplotlibViewer[State]):
     ) -> Optional[NDArray]:
         """Render a frame of the environment for a given state using matplotlib.
 
-        Args:
-            state: State object containing the current dynamics of the environment.
-            save_path: Optional path to save the rendered environment image to.
+        Parameters
+        ----------
+        state
+            State object containing the current dynamics of the environment.
+        save_path
+            Optional path to save the rendered environment image to.
 
-        Return:
+        Returns
+        -------
+        Array
             RGB array if the render_mode is 'rgb_array'.
         """
         self._clear_display()
@@ -56,14 +73,20 @@ class PredatorPreyViewer(MatplotlibViewer[State]):
     ) -> matplotlib.animation.FuncAnimation:
         """Create an animation from a sequence of states.
 
-        Args:
-            states: sequence of `State` corresponding to subsequent timesteps.
-            interval: delay between frames in milliseconds, default to 200.
-            save_path: the path where the animation file should be saved. If it is None,
-                the plot will not be saved.
+        Parameters
+        ----------
+        states
+            Sequence of ``State`` objects corresponding to subsequent timesteps.
+        interval
+            Delay between frames in milliseconds, default to 200.
+        save_path
+            The path where the animation file should be saved. If it is None,
+            the plot will not be saved
 
-        Returns:
-            Animation object that can be saved as a GIF, MP4, or rendered with HTML.
+        Returns
+        -------
+        FuncAnimation
+            Animation object that can be saved as a GIF, MP4, or rendered with HTML
         """
         if not states:
             raise ValueError(f"The states argument has to be non-empty, got {states}.")

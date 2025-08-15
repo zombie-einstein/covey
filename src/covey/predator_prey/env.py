@@ -1,4 +1,10 @@
-"""Predator-prey multi-agent environment"""
+"""
+Predator-prey multi-agent environment
+
+Multi-agent environment where a Flock of predator
+type agents attempt to capture a flock of prey
+agents.
+"""
 from functools import cached_property
 from typing import Optional, Sequence
 
@@ -21,15 +27,6 @@ from .viewer import PredatorPreyViewer
 
 
 class PredatorPrey(Environment):
-    """
-    Predator-prey multi-agent RL environment
-
-    Environment containing two distinct agent types, predators and prey.
-    The predator agents are rewarded for coming within capture range of
-    the prey agents. Conversely, the prey agents are penalised if within
-    capture range of a prey agent.
-    """
-
     def __init__(
         self,
         prey_max_rotate: float = 0.025,
@@ -47,7 +44,38 @@ class PredatorPrey(Environment):
         observation: Optional[ObservationFn] = None,
     ) -> None:
         """
-        Initialise a predator-prey environment
+        Predator-prey multi-agent RL environment
+
+        Environment containing two distinct agent types, predators and prey.
+        The predator agents are rewarded for coming within capture range of
+        the prey agents. Conversely, the prey agents are penalised if within
+        capture range of a prey agent.
+
+        Actions
+        -------
+        Each set of can take the same actions, changing heading, and changing
+        speed. Actions are in the range ``[-1, 1]`` which are then
+        scales by the maximum rotation and acceleration parameters for the
+        respective agent types. The total actions for the agent types are are
+        arrays  with shape ``[n_predators, 2]`` and ``[n_prey, 2]. The action
+        values represent  ``[rotation, acceleration]`` respectively.
+
+        Observations
+        ------------
+        All agents individually observe their local environment within a
+        given range. The view for each agent is an array of shape
+        ``[2, n_vision]``. Each entry represents the distance along a ray
+        to the nearest neighbouring agent, where the default ``-1`` represents
+        a lock of agent along that ray. The 2 rows of the array are used
+        to represent the two distinct agent types.
+
+        Rewards
+        -------
+        By default the rewards are:
+
+        - Predator agents are provided a fixed reward when within capture
+          range of a prey agent
+        - Prey agents are penalised for every predator agent within capture range
 
         Parameters
         ----------
@@ -151,6 +179,8 @@ class PredatorPrey(Environment):
         """
         Reset the environment
 
+        Generates a new initial environment state and initial timestep
+
         Parameters
         ----------
         key
@@ -195,7 +225,11 @@ class PredatorPrey(Environment):
         state
             Current environment state
         actions
-            Actions struct containing predator and prey action arrays
+            Actions struct containing predator and prey action arrays,
+            in shapes ``[n-predators, 2]`` and ``[n-prey, 2]``
+            respectively. Actions lie in the range ``[-1, 1]`` which
+            are then scaled by the corresponding parameters.
+            The 2 values represent ``[rotation, acceleration]``.
 
         Returns
         -------
@@ -365,7 +399,7 @@ class PredatorPrey(Environment):
         )
 
     def render(self, state: State) -> None:
-        """Render a frame of the environment for a given state using matplotlib.
+        """Render a frame of the environment for a given state using matplotlib
 
         Parameters
         ----------
@@ -380,18 +414,18 @@ class PredatorPrey(Environment):
         interval: int = 100,
         save_path: Optional[str] = None,
     ) -> FuncAnimation:
-        """Create an animation from a sequence of environment states.
+        """Create an animation from a sequence of environment states
 
         Parameters
         ----------
         states
             Sequence of environment states corresponding to consecutive
-            timesteps.
+            timesteps
         interval
             Delay between frames in milliseconds.
         save_path
             The path where the animation file should be saved. If it
-            is None, the plot will not be saved.
+            is None, the plot will not be saved
 
         Returns
         -------

@@ -1,4 +1,4 @@
-"""Agent observation function"""
+"""Flock agent observation function"""
 from typing import Tuple
 
 import chex
@@ -17,10 +17,6 @@ def _view_reduction(view_shape: Tuple[int, ...]) -> esquilax.reductions.Reductio
 
 
 class ObservationFn:
-    """
-    Base agent environment observation function
-    """
-
     def __init__(
         self,
         num_vision: int,
@@ -30,7 +26,7 @@ class ObservationFn:
         env_size: float,
     ) -> None:
         """
-        Initialise base observation function
+        Base agent environment observation function
 
         Parameters
         ----------
@@ -54,6 +50,7 @@ class ObservationFn:
 
     def __call__(self, state: State) -> chex.Array:
         """
+        Generate agent observations
 
         Parameters
         ----------
@@ -64,7 +61,7 @@ class ObservationFn:
         -------
         Array
             Array of individual agent observation arrays, in
-            shape `[n-agents, n-observation]`
+            shape ``[n-agents, n-observation]``
         """
         views = esquilax.transforms.spatial(
             view,

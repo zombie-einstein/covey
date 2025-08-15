@@ -1,4 +1,4 @@
-"""Predator-prey reward function"""
+"""Predator-prey environment reward functions"""
 import abc
 
 import esquilax
@@ -12,29 +12,21 @@ class RewardFn(abc.ABC):
 
     @abc.abstractmethod
     def __call__(self, state: State) -> Rewards:
-        """The reward function.
+        """Generate predator and prey rewards from state
 
-        Args:
-            state: Env state
+        Parameters
+        ----------
+        state
+            Env state
 
-        Returns:
-            Individual reward for each agent.
+        Returns
+        -------
+        Rewards
+            Individual reward for each predator and prey agent
         """
 
 
 class SparseRewards(RewardFn):
-    """
-    Sparse reward function
-
-    Sparse reward function that provides a fixed reward/penalty
-    to predators/prey when in capture range, irrespective of
-    distance.
-
-    Predator agents are provided a fixed reward if within capture range
-    of a prey agent. Prey agents are provide a fixed reward summed
-    over all prey agents within capture range.
-    """
-
     def __init__(
         self,
         capture_radius: float,
@@ -42,7 +34,15 @@ class SparseRewards(RewardFn):
         prey_penalty: float,
     ) -> None:
         """
-        Initialise sparse reward function
+        Sparse reward function
+
+        Sparse reward function that provides a fixed reward/penalty
+        to predators/prey when in capture range, irrespective of
+        distance.
+
+        Predator agents are provided a fixed reward if within capture range
+        of a prey agent. Prey agents are provide a fixed reward summed
+        over all prey agents within capture range.
 
         Parameters
         ----------
@@ -108,19 +108,6 @@ def _distance_reward(
 
 
 class LinearRewards(RewardFn):
-    """
-    Rewards function that scaled reward by linear distance
-
-    Reward function that assigns rewards/penalties to
-    predator/prey if within capture range. The rewards
-    are scaled linearly based on the distance between the
-    predator and prey.
-
-    Predator agents are provided a reward if within capture range
-    of a prey agent. Prey agents are provide a reward summed
-    over all prey agents within capture range.
-    """
-
     def __init__(
         self,
         capture_radius: float,
@@ -129,7 +116,16 @@ class LinearRewards(RewardFn):
         env_size: float,
     ) -> None:
         """
-        Initialise a linear reward function
+        Rewards function that scales reward by linear distance
+
+        Reward function that assigns rewards/penalties to
+        predator/prey if within capture range. The rewards
+        are scaled linearly based on the distance between the
+        predator and prey.
+
+        Predator agents are provided a reward if within capture range
+        of a prey agent. Prey agents are provide a reward summed
+        over all prey agents within capture range.
 
         Parameters
         ----------

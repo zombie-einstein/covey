@@ -1,3 +1,4 @@
+"""Flock environment initial state generator"""
 import abc
 
 import chex
@@ -9,20 +10,16 @@ from .types import State
 
 
 class Generator(abc.ABC):
-    """
-    Initial state generation interface
-    """
-
     def __init__(self, num_boids: int, env_size: float = 1.0) -> None:
         """
-        Base generator initialiser
+        Abstract flock environment state generator
 
         Parameters
         ----------
         num_boids
-            Number of boid agents in the flock
+            Number of agents in the flock
         env_size
-            Size of the environment
+            Size of the environment, default ``1.0``
         """
         self.num_boids = num_boids
         self.env_size = env_size
@@ -56,13 +53,9 @@ class Generator(abc.ABC):
 
 
 class RandomGenerator(Generator):
-    """
-    Random generator, sampling from a uniform distribution of positons and velocities
-    """
-
     def __call__(self, key: chex.PRNGKey, boid_params: AgentParams) -> State:
         """
-        Generate a randomly sampled state
+        Random generator, sampling from a uniform distribution
 
         Parameters
         ----------

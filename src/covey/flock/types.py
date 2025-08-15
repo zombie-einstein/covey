@@ -1,3 +1,4 @@
+"""Flock environment data types"""
 from typing import TYPE_CHECKING, NamedTuple
 
 import chex

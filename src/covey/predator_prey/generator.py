@@ -11,15 +11,11 @@ from .types import State
 
 
 class Generator(abc.ABC):
-    """
-    State generator abstract class
-    """
-
     def __init__(
         self, num_predators: int, num_prey: int, env_size: float = 1.0
     ) -> None:
         """
-        Initialise state generator
+        State generator abstract class
 
         Parameters
         ----------
@@ -28,7 +24,7 @@ class Generator(abc.ABC):
         num_prey
             Number of prey agents
         env_size
-            Environment size
+            Environment size, default 1.0
         """
         self.num_predators = num_predators
         self.num_prey = num_prey
@@ -38,7 +34,7 @@ class Generator(abc.ABC):
     def __call__(
         self, key: chex.PRNGKey, predator_params: AgentParams, prey_params: AgentParams
     ) -> State:
-        """Generate initial agent positions and velocities.
+        """Generate initial agent positions and velocities
 
         Parameters
         ----------
@@ -57,17 +53,14 @@ class Generator(abc.ABC):
 
 
 class RandomGenerator(Generator):
-    """
-    Initial state generator that random samples agent states
-
-    Random generator that samples predator and prey agent positions
-    and velocities from a uniform distribution
-    """
-
     def __call__(
         self, key: chex.PRNGKey, predator_params: AgentParams, prey_params: AgentParams
     ) -> State:
-        """Generate initial agent positions and velocities.
+        """
+        Initial state generator that random samples agent states
+
+        Random generator that samples predator and prey agent positions
+        and velocities from a uniform distribution
 
         Parameters
         ----------

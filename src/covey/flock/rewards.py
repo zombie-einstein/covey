@@ -1,3 +1,4 @@
+"""Flock agent reward functions"""
 import abc
 from typing import Callable, Union
 
@@ -30,7 +31,7 @@ class RewardFn(abc.ABC):
 
     @abc.abstractmethod
     def __call__(self, state: State) -> chex.Array:
-        """The reward function
+        """Generate rewards from state
 
         Parameters
         ----------
@@ -40,22 +41,11 @@ class RewardFn(abc.ABC):
         Returns
         -------
         Array
-            Individual reward for each agent
+            Array of individual reward for each agent
         """
 
 
 class BaseDistanceRewardFn(RewardFn):
-    """
-    Base distance based reward function
-
-    Base reward function that generated rewards based on the
-    distance between individual agents (up to a given range).
-
-    A negative penalty is applied if the agents collide.
-
-    Rewards are accumulated between all pairs of agents within range.
-    """
-
     def __init__(
         self,
         boid_radius: float,
@@ -64,7 +54,14 @@ class BaseDistanceRewardFn(RewardFn):
         reward_fn: Callable[[float], Union[float, chex.Array]],
     ) -> None:
         """
-        Initialise distance reward function
+        Base distance based reward function
+
+        Base reward function that generated rewards based on the
+        distance between individual agents (up to a given range).
+
+        A negative penalty is applied if the agents collide.
+
+        Rewards are accumulated between all pairs of agents within range.
 
         Parameters
         ----------
@@ -83,7 +80,7 @@ class BaseDistanceRewardFn(RewardFn):
         self.reward_fn = reward_fn
 
     def __call__(self, state: State) -> chex.Array:
-        """The reward function
+        """Generate rewards from state
 
         Parameters
         ----------
@@ -92,7 +89,8 @@ class BaseDistanceRewardFn(RewardFn):
 
         Returns
         -------
-            Individual reward for each agent
+        Array
+            Array of individual reward for each agent
         """
         collisions, rewards = esquilax.transforms.spatial(
             _apply_reward_fn,
@@ -117,25 +115,21 @@ def _exponential_rewards(d: float) -> chex.Array:
 
 
 class ExponentialRewardFn(BaseDistanceRewardFn):
-    """
-    Rewards that drop of exponentially with distance
-    """
-
     def __init__(
         self,
         boid_radius: float,
         collision_penalty: float,
         i_range: float,
     ) -> None:
-        """The reward function
+        """Rewards that decrease exponentially with distance
 
         Parameters
         ----------
-        state
-            Env state
-
-        Returns
-        -------
-            Individual reward for each agent
+        boid_radius
+            Radius of agents
+        collision_penalty
+            Penalty returned in case of colliding agents
+        i_range
+            Interaction range
         """
         super().__init__(boid_radius, collision_penalty, i_range, _exponential_rewards)

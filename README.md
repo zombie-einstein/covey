@@ -66,3 +66,15 @@ Tests can be run with
 ```bash
 task test
 ```
+
+### Build Documentation
+
+Docs can be built using
+[Sphinx](https://www.sphinx-doc.org/en/master/)
+by running
+
+```bash
+task docs
+```
+
+Built docs will be generated in the `docs/build` folder.
