@@ -1,4 +1,4 @@
-name: code-formatting
+name: pre-merge
 run-name: ${{ github.actor }} code format checks
 on: [pull_request]
 jobs:
