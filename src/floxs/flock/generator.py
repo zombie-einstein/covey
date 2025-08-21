@@ -4,7 +4,7 @@ import abc
 import chex
 from jumanji.environments.swarms.common.types import AgentParams
 
-from covey.common.utils import random_agent_state
+from floxs.common.utils import random_agent_state
 
 from .types import State
 

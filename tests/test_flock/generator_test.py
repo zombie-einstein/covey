@@ -3,8 +3,8 @@ import jax.numpy as jnp
 import pytest
 from jumanji.environments.swarms.common.types import AgentParams
 
-from covey.flock.generator import Generator, RandomGenerator
-from covey.flock.types import State
+from floxs.flock.generator import Generator, RandomGenerator
+from floxs.flock.types import State
 
 
 @pytest.mark.parametrize("env_size", [1.0, 0.5])

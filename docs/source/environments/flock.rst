@@ -7,7 +7,7 @@ of animal flocks and swarms.
 Agents attempt to remain close to other members of the flock whilst
 avoiding colliding with other agents.
 
-See :py:class:`covey.flock.Flock` for details of the environment API.
+See :py:class:`floxs.flock.Flock` for details of the environment API.
 
 Dynamics
 --------
@@ -40,7 +40,7 @@ in the flock:
 By default the reward provided by in range neighbours decrease exponentially
 with distance.
 
-Rewards can be customised by implementing the :py:class:`covey.flock.rewards.RewardFn`
+Rewards can be customised by implementing the :py:class:`floxs.flock.rewards.RewardFn`
 interface.
 
 Observations
@@ -53,6 +53,6 @@ neighbour along a ray cast from the agent. In the case that no agent lies within
 range, then the default value is -1.
 
 Observations can be customized by extending the default
-:py:class:`covey.flock.observations.ObservationFn` observation class.
+:py:class:`floxs.flock.observations.ObservationFn` observation class.
 
 .. _boids model: https://en.wikipedia.org/wiki/Boids

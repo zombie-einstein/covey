@@ -1,7 +1,7 @@
 import pytest
 
-from covey.predator_prey.env import PredatorPrey
-from covey.predator_prey.observations import ObservationFn
+from floxs.predator_prey.env import PredatorPrey
+from floxs.predator_prey.observations import ObservationFn
 
 
 @pytest.fixture

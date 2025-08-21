@@ -2,8 +2,8 @@ import jax.numpy as jnp
 import pytest
 from jumanji.environments.swarms.common.types import AgentState
 
-from covey.predator_prey.rewards import SparseRewards
-from covey.predator_prey.types import Rewards, State
+from floxs.predator_prey.rewards import SparseRewards
+from floxs.predator_prey.types import Rewards, State
 
 PREDATOR_REWARD = 1.1
 PREY_PENALTY = 0.9

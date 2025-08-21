@@ -1,5 +1,5 @@
 *****
-Covey
+Floxs
 *****
 
 **Multi-agent swarm and flock RL environments**

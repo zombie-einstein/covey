@@ -1,7 +1,7 @@
 import pytest
 
-from covey.flock.env import Flock
-from covey.flock.observations import ObservationFn
+from floxs.flock.env import Flock
+from floxs.flock.observations import ObservationFn
 
 
 @pytest.fixture
