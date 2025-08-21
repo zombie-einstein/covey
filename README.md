@@ -2,9 +2,11 @@
 
 **Swarm and Flock Multi-agent RL environments, implemented with [JAX](https://github.com/google/jax) using [Esquilax](https://zombie-einstein.github.io/esquilax/)**
 
+Full documentation can be found [**here**](https://zombie-einstein.github.io/floxs/)
+
 <p float="left">
-  <img src=".github/images/rl_boids001.gif?raw=true" width="300" />
-  <img src=".github/images/rl_boids002.gif?raw=true" width="300" />
+  <img src="https://github.com/zombie-einstein/floxs/raw/master/.github/images/rl_boids001.gif?raw=true" width="300" />
+  <img src="https://github.com/zombie-einstein/floxs/raw/master/.github/images/rl_boids002.gif?raw=true" width="300" />
 </p>
 
 Multi-agent RL environments with a focus on larger scale flocks and swarms on continuos
@@ -36,8 +38,14 @@ See the [Jumanji docs](https://instadeepai.github.io/jumanji/) for more usage in
 
 ## Usage
 
-The package and requirements can be installed using [poetry](https://python-poetry.org/docs/)
-by running
+Floxs can be installed using pip
+
+```shell
+pip install floxs
+```
+
+From the repository the package and requirements can be installed
+using [poetry](https://python-poetry.org/docs/) by running
 
 ```shell
 poetry install
