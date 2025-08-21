@@ -5,8 +5,8 @@
 Full documentation can be found [**here**](https://zombie-einstein.github.io/floxs/)
 
 <p float="left">
-  <img src="https://github.com/zombie-einstein/floxs/raw/main/.github/images/rl_boids001.gif?raw=true" width="300" />
-  <img src="https://github.com/zombie-einstein/floxs/raw/main/.github/images/rl_boids002.gif?raw=true" width="300" />
+  <img src="https://github.com/zombie-einstein/floxs/raw/master/.github/images/rl_boids001.gif?raw=true" width="300" />
+  <img src="https://github.com/zombie-einstein/floxs/raw/master/.github/images/rl_boids002.gif?raw=true" width="300" />
 </p>
 
 Multi-agent RL environments with a focus on larger scale flocks and swarms on continuos
