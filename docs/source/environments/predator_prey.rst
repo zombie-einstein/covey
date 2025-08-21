@@ -6,7 +6,7 @@ Multi-agent RL environment with two competing flocks/teams of agents:
 - Predator agents attempt to capture prey agents
 - Prey agents attempt to evade predator agents
 
-See :py:class:`covey.predator_prey.PredatorPrey` for details of the
+See :py:class:`floxs.predator_prey.PredatorPrey` for details of the
 environment API.
 
 Dynamics
@@ -42,7 +42,7 @@ By default rewards are independent of distance, i.e. they are a binary
 fixed rewards when predator/prey are in range.
 
 Rewards can be customised by implementing the
-:py:class:`covey.predator_prey.rewards.RewardFn` interface.
+:py:class:`floxs.predator_prey.rewards.RewardFn` interface.
 
 Observations
 ------------
@@ -55,4 +55,4 @@ neighbour along a ray cast from the agent. In the case that no agent lies within
 range, then the default value is -1.
 
 Observations can be customized by extending the default
-:py:class:`covey.predator_prey.observations.ObservationFn` observation class.
+:py:class:`floxs.predator_prey.observations.ObservationFn` observation class.

@@ -5,7 +5,7 @@ import chex
 import jax.random
 from jumanji.environments.swarms.common.types import AgentParams
 
-from covey.common.utils import random_agent_state
+from floxs.common.utils import random_agent_state
 
 from .types import State
 

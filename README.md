@@ -1,4 +1,4 @@
-# Covey
+# Floxs
 
 **Swarm and Flock Multi-agent RL environments, implemented with [JAX](https://github.com/google/jax) using [Esquilax](https://zombie-einstein.github.io/esquilax/)**
 
@@ -12,7 +12,7 @@ spaces. Implemented using [Esquilax](https://zombie-einstein.github.io/esquilax/
 library, and the [Jumanji](https://github.com/instadeepai/jumanji) RL environment API.
 
 ```python
-from covey.flock.env import Flock
+from floxs.flock.env import Flock
 import jax
 
 

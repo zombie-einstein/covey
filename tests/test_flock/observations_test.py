@@ -2,8 +2,8 @@ import jax.numpy as jnp
 import pytest
 from jumanji.environments.swarms.common.types import AgentState
 
-from covey.flock.observations import ObservationFn
-from covey.flock.types import State
+from floxs.flock.observations import ObservationFn
+from floxs.flock.types import State
 
 VISION_RANGE = 0.2
 VIEW_ANGLE = 0.5

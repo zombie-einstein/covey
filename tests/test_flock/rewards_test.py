@@ -2,8 +2,8 @@ import jax.numpy as jnp
 import pytest
 from jumanji.environments.swarms.common.types import AgentState
 
-from covey.flock.rewards import ExponentialRewardFn, RewardFn
-from covey.flock.types import State
+from floxs.flock.rewards import ExponentialRewardFn, RewardFn
+from floxs.flock.types import State
 
 
 @pytest.mark.parametrize(

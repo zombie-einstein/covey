@@ -1,9 +1,9 @@
 import pkg_resources
 
-project = "Covey"
+project = "Floxs"
 copyright = "2025, zombie-einstein"
 author = "zombie-einstein"
-release = pkg_resources.get_distribution("covey").version
+release = pkg_resources.get_distribution("floxs").version
 
 extensions = [
     "sphinx.ext.napoleon",
@@ -53,13 +53,13 @@ intersphinx_mapping = {
     "chex": ("https://chex.readthedocs.io/en/latest", None),
 }
 
-html_title = "Covey"
+html_title = "Floxs"
 html_theme = "piccolo_theme"
 # html_static_path = ["_static"]
 # html_logo = "./_static/images/logo_white.png"
 # html_favicon = "./_static/images/favicon.png"
 
 html_theme_options = {
-    "source_url": "https://github.com/zombie-einstein/covey",
+    "source_url": "https://github.com/zombie-einstein/floxs",
     "source_icon": "github",
 }

@@ -1,13 +1,13 @@
 [tool.poetry]
-name = "covey"
+name = "floxs"
 version = "0.1.0"
 description = "Multi-agent RL flock and swarm environments implemented in JAX"
 authors = ["zombie-einstein <zombie-einstein@proton.me>"]
 readme = "README.md"
-packages = [{include = "covey", from = "src"}]
-repository = "https://github.com/zombie-einstein/covey"
-homepage = "https://zombie-einstein.github.io/covey"
-documentation = "https://zombie-einstein.github.io/covey"
+packages = [{include = "floxs", from = "src"}]
+repository = "https://github.com/zombie-einstein/floxs"
+homepage = "https://zombie-einstein.github.io/floxs"
+documentation = "https://zombie-einstein.github.io/floxs"
 license = "MIT"
 keywords = [
   "simulation",
