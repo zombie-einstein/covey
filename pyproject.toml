@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "floxs"
-version = "0.1.0"
+version = "0.1.1"
 description = "Multi-agent RL flock and swarm environments implemented in JAX"
 authors = ["zombie-einstein <zombie-einstein@proton.me>"]
 readme = "README.md"
